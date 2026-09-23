@@ -1,0 +1,15 @@
+node_modules/
+frontend/dist/
+.env
+.env.*
+!.env.example
+*service-account*.json
+*firebase-adminsdk*.json
+secrets/
+.private/
+coverage/
+*.log
+.DS_Store
+
+
+.netlify/

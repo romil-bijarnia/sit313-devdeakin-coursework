@@ -1,0 +1,20 @@
+# This exact entry also ignores the root node_modules symlink used for local builds.
+node_modules
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+.DS_Store
+.playwright-cli/
+output/
+.firebase/
+.netlify/
+firebase-debug.log
+firestore-debug.log
+server/data/*.json
+server/data/*.tmp
+server/data/*.lock
+
+# Local Netlify folder
+.netlify

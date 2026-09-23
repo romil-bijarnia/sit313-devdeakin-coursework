@@ -1,0 +1,168 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function signedInAs(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function validProfile(data) {
+      return data.keys().hasOnly(['firstName', 'lastName', 'email', 'createdAt'])
+        && data.firstName is string
+        && data.firstName.size() > 0
+        && data.firstName.size() <= 100
+        && data.lastName is string
+        && data.lastName.size() > 0
+        && data.lastName.size() <= 100
+        && data.email is string
+        && data.email.size() <= 254
+        && data.email == request.auth.token.email
+        && data.createdAt is timestamp;
+    }
+
+    function validPost(data, userId) {
+      return data.keys().hasOnly([
+          'type', 'plan', 'title', 'topic', 'problem', 'abstract', 'body', 'tags',
+          'imageUrl', 'storagePath', 'authorId', 'authorName', 'createdAt'
+        ])
+        && data.type in ['question', 'article']
+        && data.plan in ['Free', 'Paid']
+        && data.title is string
+        && data.title.size() > 0
+        && data.title.size() <= 140
+        && data.topic is string
+        && data.topic.size() <= 80
+        && data.problem is string
+        && data.problem.size() <= 4000
+        && data.abstract is string
+        && data.abstract.size() <= 700
+        && data.body is string
+        && data.body.size() <= 12000
+        && data.tags is list
+        && data.tags.size() > 0
+        && data.tags.size() <= 3
+        && data.tags[0] is string
+        && data.tags[0].size() > 0
+        && data.tags[0].size() <= 30
+        && (data.tags.size() < 2 || (data.tags[1] is string
+          && data.tags[1].size() > 0 && data.tags[1].size() <= 30))
+        && (data.tags.size() < 3 || (data.tags[2] is string
+          && data.tags[2].size() > 0 && data.tags[2].size() <= 30))
+        && data.imageUrl is string
+        && data.imageUrl.size() <= 4096
+        && data.storagePath is string
+        && data.storagePath.size() <= 512
+        && ((data.storagePath == '' && data.imageUrl == '')
+          || (data.storagePath.matches('post-images/' + userId + '/.*') && data.imageUrl.size() > 0))
+        && data.authorId == userId
+        && data.authorName is string
+        && data.authorName.size() > 0
+        && data.authorName.size() <= 201
+        && data.createdAt is timestamp
+        && ((data.type == 'question' && data.problem.size() > 0)
+          || (data.type == 'article' && data.abstract.size() > 0 && data.body.size() > 0));
+    }
+
+    function validMessage(data, userId) {
+      return data.keys().hasOnly([
+          'text', 'senderId', 'senderName', 'clientCreatedAt', 'nonce',
+          'integrityVersion', 'integrityHash', 'createdAt'
+        ])
+        && data.text is string
+        && data.text.size() > 0
+        && data.text.size() <= 1000
+        && data.senderId == userId
+        && data.senderName is string
+        && data.senderName.size() > 0
+        && data.senderName.size() <= 201
+        && data.clientCreatedAt is string
+        && data.clientCreatedAt.size() <= 40
+        && data.nonce is string
+        && data.nonce.matches('^[0-9a-f]{32}$')
+        && data.integrityVersion == 'sha256-v1'
+        && data.integrityHash is string
+        && data.integrityHash.matches('^[0-9a-f]{64}$')
+        && data.createdAt is timestamp;
+    }
+
+    match /users/{userId} {
+      allow get: if signedInAs(userId);
+      allow list: if false;
+      allow create: if signedInAs(userId)
+        && validProfile(request.resource.data)
+        && request.resource.data.createdAt == request.time;
+      allow update: if signedInAs(userId)
+        && validProfile(request.resource.data)
+        && request.resource.data.email == resource.data.email
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if false;
+    }
+
+    match /posts/{postId} {
+      allow read: if true;
+      allow create: if signedIn()
+        && validPost(request.resource.data, request.auth.uid)
+        && request.resource.data.createdAt == request.time;
+      allow update: if signedInAs(resource.data.authorId)
+        && validPost(request.resource.data, request.auth.uid)
+        && request.resource.data.authorId == resource.data.authorId
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if signedInAs(resource.data.authorId);
+    }
+
+    match /collaborationRooms/{roomId}/messages/{messageId} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && validMessage(request.resource.data, request.auth.uid)
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
+    }
+
+    match /tutorials/{tutorialId} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['views', 'updatedAt'])
+        && request.resource.data.views is int
+        && request.resource.data.views == 1
+        && request.resource.data.updatedAt == request.time;
+      allow update: if signedIn()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views', 'updatedAt'])
+        && request.resource.data.views is int
+        && request.resource.data.views == resource.data.views + 1
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if false;
+
+      match /ratings/{userId} {
+        allow read: if signedIn();
+        allow create, update: if signedInAs(userId)
+          && request.resource.data.keys().hasOnly(['userId', 'rating', 'updatedAt'])
+          && request.resource.data.userId == userId
+          && request.resource.data.rating is int
+          && request.resource.data.rating >= 1
+          && request.resource.data.rating <= 5
+          && request.resource.data.updatedAt == request.time;
+        allow delete: if signedInAs(userId);
+      }
+
+      match /comments/{commentId} {
+        allow read: if signedIn();
+        allow create: if signedIn()
+          && request.resource.data.keys().hasOnly(['text', 'authorId', 'authorName', 'createdAt'])
+          && request.resource.data.authorId == request.auth.uid
+          && request.resource.data.authorName is string
+          && request.resource.data.authorName.size() > 0
+          && request.resource.data.authorName.size() <= 201
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0
+          && request.resource.data.text.size() <= 500
+          && request.resource.data.createdAt == request.time;
+        allow update: if false;
+        allow delete: if signedInAs(resource.data.authorId);
+      }
+    }
+  }
+}

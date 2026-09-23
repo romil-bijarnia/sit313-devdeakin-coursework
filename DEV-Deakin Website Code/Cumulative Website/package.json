@@ -1,0 +1,31 @@
+{
+  "name": "dev-deakin-all-tasks",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cumulative SIT313 DEV@Deakin React, Firebase, Express, and Netlify application.",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run frontend\"",
+    "frontend": "vite --host 127.0.0.1 --port 5173 frontend",
+    "server": "node server/server.js",
+    "build": "vite build frontend",
+    "preview": "vite preview --host 127.0.0.1 --port 4173 frontend",
+    "smoke": "npm run build && node server/smoke-test.js && node server/production-api-base-test.js",
+    "test": "npm run smoke"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^10.7.12",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "firebase": "^12.17.1",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.18.2"
+  },
+  "devDependencies": {
+    "vite": "^6.0.3"
+  }
+}

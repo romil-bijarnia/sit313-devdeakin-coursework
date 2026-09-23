@@ -1,0 +1,7 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // All account and session operations pass through the authenticated server SDK.
+    match /{document=**} { allow read, write: if false; }
+  }
+}

@@ -1,0 +1,18 @@
+image: node:20
+
+stages:
+  - verify
+
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - .npm/
+
+verify:
+  stage: verify
+  script:
+    - npm ci --cache .npm --prefer-offline
+    - npm run smoke
+    - npm audit --audit-level=low

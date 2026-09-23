@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HD1 Feature Document</title>
+    <style>
+      body {
+        margin: 0;
+        background: #eef6f4;
+        color: #16211f;
+        font-family: Arial, sans-serif;
+        line-height: 1.55;
+      }
+
+      main {
+        width: min(920px, calc(100% - 32px));
+        margin: 32px auto;
+        padding: 42px;
+        background: white;
+        border: 1px solid #d8e8e5;
+      }
+
+      h1,
+      h2,
+      p {
+        margin-top: 0;
+      }
+
+      h1,
+      h2 {
+        color: #0b7d6d;
+      }
+
+      h1 {
+        font-size: 2.25rem;
+        line-height: 1.1;
+      }
+
+      p {
+        color: #5d716d;
+      }
+
+      section {
+        border-top: 1px solid #d8e8e5;
+        padding-top: 20px;
+        margin-top: 24px;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin-top: 16px;
+        border: 1px solid #d8e8e5;
+      }
+
+      @media print {
+        body {
+          background: white;
+        }
+
+        main {
+          width: auto;
+          margin: 0;
+          padding: 0;
+          border: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>HD1 DEV@Deakin Web App Feature Document</h1>
+      <p><strong>Student:</strong> Romil Bijarnia</p>
+      <p><strong>Project:</strong> DEV@Deakin cumulative React application</p>
+
+      <section>
+        <h2>Feature Summary</h2>
+        <p>
+          The HD extension adds advanced features to DEV@Deakin beyond the standard Pass, Credit,
+          and Distinction tasks. The app includes secure collaboration messaging, a two-factor
+          authentication demo, and an interactive tutorial library with views and ratings.
+        </p>
+      </section>
+
+      <section>
+        <h2>Secure Collaboration Room</h2>
+        <p>
+          The collaboration room lets users submit project updates and stores them with a checksum.
+          This demonstrates secure communication concepts, persistent user interaction, message
+          history, and reusable form handling.
+        </p>
+      </section>
+
+      <section>
+        <h2>Two-Factor Authentication Demo</h2>
+        <p>
+          The two-factor authentication feature generates a six-digit code, accepts user input,
+          verifies the code, and reports success or failure. This demonstrates authentication state,
+          validation, security-oriented UI, and controlled inputs.
+        </p>
+      </section>
+
+      <section>
+        <h2>Tutorial Videos With Views and Ratings</h2>
+        <p>
+          The tutorial library displays uploaded lesson-style cards and lets users increase view
+          counts and submit ratings. The feature demonstrates mapped React data, reusable media
+          cards, local persistence, and interactive feedback.
+        </p>
+      </section>
+
+      <section>
+        <h2>Advanced React Concepts Used</h2>
+        <p>
+          The app uses React Router, reusable components, conditional rendering, controlled forms,
+          browser persistence, stateful filters, array mapping, file upload previews, validation,
+          and component composition across multiple routes.
+        </p>
+        <img src="../reports/screenshots/07-hd1.png" alt="HD feature screenshot">
+      </section>
+    </main>
+  </body>
+</html>

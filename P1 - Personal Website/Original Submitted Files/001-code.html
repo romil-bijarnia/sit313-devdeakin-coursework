@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Romil Bijarnia | DEV@Deakin</title>
+    <meta
+      name="description"
+      content="DEV@Deakin personal website for SIT313 P1, created with HTML and CSS."
+    >
+    <meta name="author" content="Romil Bijarnia">
+    <meta name="theme-color" content="#076556">
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23076556'/%3E%3Ctext x='32' y='43' font-family='Arial, sans-serif' font-size='30' font-weight='800' fill='%23ffffff' text-anchor='middle'%3ERB%3C/text%3E%3C/svg%3E"
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#home">Skip to main content</a>
+
+    <header class="site-header">
+      <nav class="nav-bar" aria-label="Primary">
+        <a class="brand" href="#home">DEV@Deakin</a>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="home" tabindex="-1">
+      <!-- tabindex="0" lets keyboard users reveal the banner message via :focus-within -->
+      <section class="hero" tabindex="0" aria-label="DEV@Deakin introduction">
+        <img
+          class="hero-image"
+          src="assets/banner.jpg"
+          alt="Modern city building used as a banner for the DEV@Deakin personal website"
+          width="1800"
+          height="1200"
+        >
+        <p class="hero-hover">Hey, I'm Romil</p>
+      </section>
+
+      <section id="about" class="section about-section">
+        <div class="avatar" role="img" aria-label="Romil Bijarnia initials">RB</div>
+        <p class="intro">I am a software engineering student based in Melbourne, Australia.</p>
+        <div class="section-line"></div>
+        <h1>Here is what I have done so far</h1>
+        <p class="about-copy">
+          I am building DEV@Deakin as a growing portfolio for SIT313. This first version focuses
+          on clean HTML, organised CSS, responsive layout, and clear presentation of my previous
+          programming work.
+        </p>
+      </section>
+
+      <section id="work" class="section work-section">
+        <div class="section-heading">
+          <p class="section-label">Selected Work</p>
+          <h2>Projects I can build on during SIT313</h2>
+        </div>
+
+        <ul class="project-list">
+          <li>
+            <article class="project-card">
+              <img
+                src="assets/project-portfolio.jpg"
+                alt="Code editor on a laptop for the personal portfolio project"
+                width="900"
+                height="601"
+              >
+              <div>
+                <h3>Personal Portfolio Website</h3>
+                <p>
+                  A responsive web page that presents personal details, project work, and a clean
+                  image gallery using HTML and CSS.
+                </p>
+              </div>
+            </article>
+          </li>
+
+          <li>
+            <article class="project-card">
+              <img
+                src="assets/project-api.jpg"
+                alt="Server racks representing the task API project"
+                width="900"
+                height="505"
+              >
+              <div>
+                <h3>Task API Service</h3>
+                <p>
+                  A small REST-style project that practises routes, request handling, and structured
+                  responses for frontend applications.
+                </p>
+              </div>
+            </article>
+          </li>
+
+          <li>
+            <article class="project-card">
+              <img
+                src="assets/project-newsletter.jpg"
+                alt="Notebook and laptop representing newsletter signup work"
+                width="900"
+                height="600"
+              >
+              <div>
+                <h3>Newsletter Signup</h3>
+                <p>
+                  A web form concept for collecting email addresses, preparing the platform for later
+                  backend and email integration tasks.
+                </p>
+              </div>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section gallery-section" aria-labelledby="gallery-title">
+        <div class="section-line"></div>
+        <h2 id="gallery-title">My Photos</h2>
+        <div class="gallery-grid">
+          <img
+            src="assets/gallery-campus.jpg"
+            alt="Architectural building facade"
+            width="900"
+            height="1148"
+          >
+          <img
+            src="assets/gallery-study.jpg"
+            alt="Students studying together around a laptop"
+            width="900"
+            height="600"
+          >
+          <img
+            src="assets/gallery-code.jpg"
+            alt="Workspace with computers and code"
+            width="900"
+            height="600"
+          >
+          <img
+            src="assets/gallery-team.jpg"
+            alt="People collaborating in a team workspace"
+            width="900"
+            height="1349"
+          >
+        </div>
+      </section>
+
+      <section id="contact" class="section contact-section">
+        <h2>Contact</h2>
+        <p>
+          This DEV@Deakin page will keep growing as the unit progresses. For now, it introduces
+          who I am, the kind of projects I have worked on, and the visual style of the platform.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Created by Romil Bijarnia for SIT313 Secure Frontend Applications.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

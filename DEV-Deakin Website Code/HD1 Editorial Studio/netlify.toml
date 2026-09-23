@@ -1,0 +1,43 @@
+[build]
+  command = "npm test && npm run build && npm run check:publish && npm run check:function"
+  publish = "frontend/dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  external_node_modules = ["express", "@google-cloud/firestore", "serverless-http"]
+  included_files = ["!.env", "!.env.*", "!**/*service-account*.json", "!**/*firebase-adminsdk*.json", "!secrets/**", "!.private/**", "!qa/**", "!tests/**", "!scripts/**", "!frontend/**", "!*.md", "!dependency-audit.json", "!qa-results.json"]
+
+# API rewrites must precede the React SPA fallback.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[dev]
+  framework = "#static"
+  publish = "frontend/dist"
+  port = 8888
+  autoLaunch = false
